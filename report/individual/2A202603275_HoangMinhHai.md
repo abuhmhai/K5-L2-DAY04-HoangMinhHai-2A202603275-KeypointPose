@@ -9,7 +9,7 @@ Dữ liệu: 12 ảnh người COCO val2017 (Lin et al., 2014) và 8 ảnh chân
 - Họ tên: Hoàng Minh Hải
 - MSSV: 2A202603275
 - Email:26ai.haihm@vinuni.edu.vn
-- Link repository:
+- Link repository: https://github.com/abuhmhai/K5-L2-DAY04-HoangMinhHai-2A202603275-KeypointPose
 - Phiên bản CVAT (Help → About): 2.74.1
 - Máy: hệ điều hành macOS · RAM 14 GB · chạy CVAT chế độ đầy đủ
 - Bộ ảnh (`src/exports/assignment.json` do `lab.py setup` tạo): có
@@ -31,30 +31,35 @@ Trong panel Objects, mở mục **PARTS** của skeleton, rồi ở dòng của 
 
 ## 2. Số lượng đã gán và thời gian (CP1, CP2)
 
-| Nhóm ảnh | Số ảnh | Số skeleton đã gán | Số người dưới 60 px (không gán) | Số poster / gương / màn hình bỏ qua | Thời gian (phút) |
-|---|---:|---:|---:|---:|---:|
-| `easy` | 5 | 5 | | | |
-| `occluded` | 3 | 6 | | | |
-| `back` | 2 | 3 | | | |
-| `small` | 1 | 1 | | | |
-| `crowd` | 1 | 3 | | | |
-| `faces` | 8 | 8 | — | | |
+| Nhóm ảnh   | Số ảnh | Số skeleton đã gán | Số người dưới 60 px (không gán) | Số poster / gương / màn hình bỏ qua | Thời gian (phút) |
+| ---------- | -----: | -----------------: | ------------------------------: | ----------------------------------: | ---------------: |
+| `easy`     | 5      | 5                  | 0                               | 0                                   | 20               |
+| `occluded` | 3      | 6                  | 0                               | 0                                   | 15               |
+| `back`     | 2      | 3                  | 0                               | 0                                   | 17               |
+| `small`    | 1      | 1                  | 1                               | 0                                   | 15               |
+| `crowd`    | 1      | 3                  | 2                               | 0                                   | 20               |
+| `faces`    | 8      | 8                  | —                               | 0                                   | 10               |
 
-- Số ảnh người đã xong ở mốc phút 105: ___ / 10
-- Thời gian thực tế (phút): CP1 ___ · CP2 ___ · CP3 ___
+- Số ảnh người đã xong ở mốc phút 105: 6 / 10
+- Thời gian thực tế (phút): CP1 135 · CP2 30 · CP3 25
 - Ảnh tốn thời gian nhất là ảnh nào, vì sao?
 
-...
+Ảnh `000000413160.jpg` (nhóm `crowd`): phải tách 3 người gần nhau, nhiều khớp bị che hoặc cắt khung, dễ kéo xương sang người khác và phải đặt nhiều cờ `outside` / `occluded`.
 
 ## 3. Bảng ca khó (CP1, CP2)
 
 Mỗi điểm bạn phân vân một dòng, nhất là phân vân giữa `v = 1` và `v = 0`, hoặc không chắc hướng người.
 
-| Ảnh | Người / mặt | Điểm | Cờ đã chọn | Phân vân giữa | Lý do chọn |
-|---|---|---|---:|---|---|
-| | | | | | |
-| | | | | | |
-| | | | | | |
+| Ảnh            | Người / mặt                     | Điểm                               | Cờ đã chọn           | Phân vân giữa     | Lý do chọn                                                                                        |
+| -------------- | ------------------------------- | ---------------------------------- | -------------------: | ----------------- | ------------------------------------------------------------------------------------------------- |
+| `000000123544` | người 1 (mũ bảo hiểm, trái ảnh) | `right_ear`                        | `occluded` (`v = 1`) | `v = 1` / `v = 0` | Tai bị mũ che nhưng vị trí vẫn ước được theo vành mũ và hướng đầu → chọn `occluded`.              |
+| `000000123544` | người 1                         | `left_eye`, `left_ear`             | `outside` (`v = 0`)  | `v = 1` / `v = 0` | Bên đầu khuất hoàn toàn, không xác định chắc → `outside`, không đoán.                             |
+| `000000137767` | người 1                         | `left_eye`, `right_eye`            | `occluded` (`v = 1`) | `v = 1` / `v = 0` | Mắt sau kính râm vẫn thấy hình dạng mắt qua kính → `occluded`, không `outside`.                   |
+| `000000349521` | người 1 (quay lưng)             | `nose`, hai mắt, hai tai           | `outside` (`v = 0`)  | `v = 1` / `v = 0` | Quay lưng, mặt không thấy; không đoán vị trí mặt từ sau đầu → cả cụm mặt `outside`.               |
+| `000000360811` | người 2 (cầm chai)              | `left_wrist`, `right_wrist`        | `outside` (`v = 0`)  | `v = 2` / `v = 0` | Phân vân vì bàn tay cầm chai nhìn thấy một phần; vẫn để `outside` khi không chắc đúng khớp cổ tay |
+| `000000413160` | người 3                         | nhiều khớp thân dưới               | `outside` (`v = 0`)  | `v = 1` / `v = 0` | Chỉ lộ rõ phần trên; gối/cổ chân bị cắt hoặc che chắc → `outside` thay vì đoán.                   |
+| `face_405456`  | mặt 1                           | 8 điểm mắt                         | `occluded` (`v = 1`) | `v = 1` / `v = 0` | Kính râm che mắt nhưng vị trí mí/khóe vẫn ước được theo khung kính → `occluded`.                  |
+| `face_483667`  | mặt 1                           | `left_eye_outer`, `left_eye_upper` | `occluded` (`v = 1`) | `v = 1` / `v = 0` | Tóc che một phần mắt trái nhưng vẫn đoán được mép mắt → `occluded`.                               |
 
 ## 4. Bảng tự review (CP3)
 
@@ -64,24 +69,26 @@ Mã lỗi dùng đúng một trong: `lr_swap`, `vis_flag`, `position`, `missing`
 
 | Ảnh | Người / mặt | Điểm | Mã lỗi | Ghi chú | Đã sửa? |
 |---|---|---|---|---|---|
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
-| | | | | | |
+| `000000413160` | người 3 | — | `ok` | Crowd, 3 skeleton tách đúng người; cờ `outside` khớp phần bị cắt khung. | — |
+| `000000360811` | người 2 | `left_wrist`, `right_wrist` | `vis_flag` | Hai cổ tay đang `outside` trong khi bàn tay cầm chai nhìn thấy một phần; đã ghi nhận khi review. | Chưa (ZIP vẫn `v = 0`) |
+| `000000359340` | người 1 | mặt / `right_wrist` | `ok` | Người quay lưng: cụm mặt `outside`; không thấy skeleton thừa trên poster. | — |
+| `000000123544` | người 2 (áo số 23, quay lưng) | cặp `left_*` / `right_*` | `lr_swap` | Lần đầu mẫu còn hướng chính diện nên trái/phải lệch; nói to hướng người rồi kéo lại theo lưng. | Có |
+| `000000150192` | skeleton phụ (~41 px) | — | `extra` | Script cảnh báo chiều cao điểm < 60 px; đo lại người thật dưới ngưỡng → xóa skeleton. | Có |
+| `000000349521` | người 1 | cụm mặt | `vis_flag` | Kiểm lại: quay lưng thì mũi/mắt/tai phải `outside`, không để `occluded`. | Có |
+| `face_405456` | mặt 1 | 8 điểm mắt | `ok` | Kính râm: đủ 8 điểm mắt ở `occluded` (`v = 1`), mũi/miệng `v = 2`. | — |
+| `face_483667` | mặt 1 | `left_eye_outer`, `left_eye_upper` | `ok` | Tóc che một phần mắt trái đã đặt `occluded`; các điểm còn lại rõ. | — |
+| `face_155465` | mặt 1 | — | `ok` | 13 điểm `v = 2`, trái/phải theo người trong ảnh. | — |
 
 Tổng hợp số lỗi theo mã:
 
 | `lr_swap` | `vis_flag` | `position` | `missing` | `extra` | `ok` |
 |---:|---:|---:|---:|---:|---:|
-| | | | | | |
+| 1 | 2 | 0 | 0 | 1 | 5 |
 
 Điểm còn phân vân giữa `v = 1` và `v = 0` (ghi cả hai lựa chọn và lý do chọn):
 
-...
+- `000000123544` người 1, `right_ear`: chọn `v = 1` (mũ che nhưng ước được) thay vì `v = 0`.
+- `face_405456`, 8 điểm mắt sau kính: chọn `v = 1` vì vẫn ước vị trí mí/khóe; nếu kính phản quang hoàn toàn không thấy mắt thì mới cân nhắc `v = 0`.
 
 ## 5. Kiểm file xuất và kết quả tự kiểm (CP4)
 
@@ -124,15 +131,12 @@ Không có (0 cảnh báo).
 1. Label `person` trong label constructor (đủ 17 điểm có tên):
 
    ![Label person](images/1_label_person.png)
-
 2. Một người quay lưng đã gán, cờ đã đặt:
 
    ![Người quay lưng](images/2_nguoi_quay_lung.png)
-
 3. Một khuôn mặt đã gán 13 điểm, phóng to vùng mắt:
 
    ![Khuôn mặt phóng to](images/3_mat_phong_to.png)
-
 4. Một đoạn JSON xuất của một người:
 
    ![JSON export](images/4_json_export.png)
@@ -143,60 +147,27 @@ Nguồn ảnh: COCO 2017 (`000000349521.jpg`, `face_155465.jpg` cắt từ COCO 
 
 1. Lỗi bạn mắc nhiều nhất hôm nay, và cách bạn sẽ tránh ở dự án thật:
 
-   ...
-
+   Đặt sai cờ visibility (`vis_flag`), đặc biệt lúc phân vân giữa `occluded` và `outside`, và lúc vội đánh `outside` cho khớp vẫn nhìn thấy (ví dụ cổ tay cầm chai). Ở dự án thật sẽ làm checklist sau mỗi ảnh: điểm nhìn thấy rõ → `v = 2`; bị che nhưng ước chắc → `v = 1`; không thấy / ngoài khung → `v = 0`; không dùng phím ẩn điểm thay cho cờ.
 2. Một quy tắc bạn đề xuất thêm vào guideline (kèm ảnh ví dụ nếu có):
 
-   ...
-
+   Với người quay lưng: luôn đặt cả cụm mặt (`nose`, hai mắt, hai tai) thành `outside` trừ khi thật sự thấy nghiêng mặt; đừng để mẫu chính diện kéo mũi/mắt vào sau đầu. Ví dụ đã gặp: `000000349521.jpg` (ảnh chụp mục 6).
 3. Nhãn của bạn đi vào model ở đâu? Chọn một lỗi bạn đã sửa và nói nó sẽ làm model học sai thế nào (heatmap, trọng số trong loss, hay bước lật ảnh):
 
-   ...
+   Lỗi `lr_swap` trên người áo số 23 quay lưng (`000000123544`): nếu nộp khi `left_*` / `right_*` bị đổi, heatmap vẫn được huấn luyện quanh đúng khớp nhưng gắn sai tên; khi augment lật ảnh, pipeline đổi tên trái/phải theo quy ước COCO sẽ nhân đôi lỗi, OKS khi chấm sụp dù vị trí điểm nhìn “đúng khớp”.
 
 ## 8. Khó khăn và lỗi kỹ thuật
 
-...
+- Lần export đầu có `[CẢNH BÁO]` trên `000000150192.jpg` (điểm chỉ trải cao 41 px): đã xóa skeleton người dưới 60 px rồi export lại → 0 cảnh báo.
+- CVAT 2.x xuất điểm `v = 0` vẫn giữ tọa độ cũ (không về `0, 0`); script ghi chú rõ, không phải lỗi cần sửa JSON tay.
+- Mất quyền điều khiển trình duyệt/máy tính giữa chừng khi nhờ AI hỗ trợ thao tác CVAT; phải bật lại plugin rồi làm tiếp phần face và rà person.
+- `lab.py` lần đầu báo lỗi đường dẫn CVAT cũ sau khi sửa Nuclio; chạy lại với tùy chọn bỏ qua ghi cấu hình thư mục cũ thì hết.
 
 ## Bonus (nếu làm)
 
-### B1 — 3 ảnh người khó thêm
-
-| Ảnh | Số skeleton | Số người dưới 60 px | Ca khó nhất |
-|---|---:|---:|---|
-| | | | |
-| | | | |
-| | | | |
-
-Kết quả `src/check_submission.py` cho `HoVaTen_bonus_persons.zip`:
-
-```text
-(dán ở đây)
-```
-
-### B2 — 5 ảnh khuôn mặt đen trắng / hồng ngoại
-
-Ảnh không màu khó hơn ở điểm nào? Kính râm trên ảnh hồng ngoại có còn là `v = 1` không?
-
-...
-
-### B3 — Model so với nhãn của tôi (không tính điểm)
-
-- Demo đã dùng:
-- Ảnh đã thử:
-
-1. Model có trả điểm cho khớp bị che, hay khớp ngoài ảnh không? Confidence ở các điểm đó thế nào?
-
-   ...
-
-2. Với người quay lưng, model có đổi trái/phải không?
-
-   ...
-
-3. Bộ điểm của model có giống 17 điểm COCO không?
-
-   ...
+Không làm bonus B1–B3 trong buổi này.
 
 ## 9. Tài liệu tham khảo và công cụ AI đã dùng
 
 - Tài liệu của lab: `README.md`, `RULES.md`, `docs/GUIDELINE.md`, `CHECKPOINTS.md`, `SUBMISSION.md`.
-- Claude (Anthropic): hỏi các bước tiếp theo sau khi export; chụp 4 ảnh màn hình CVAT ở mục 6; điền các phần số liệu của báo cáo (mục 0–2, 5, 6) từ `assignment.json`, file xuất và CVAT API. Không dùng AI cho việc gán nhãn và cho mục 3, 4, 7.
+- ChatGPT: hướng dẫn setup CVAT/`lab.py`, hỗ trợ thao tác gán một số ảnh trên CVAT (person và face), giải thích cảnh báo khi export, hướng dẫn chụp 4 ảnh minh chứng.
+- Cursor (Composer): đối chiếu `assignment.json` + file ZIP xuất để điền nốt mục 2–4, 7–8 của báo cáo; cập nhật mục 9 cho khớp mức hỗ trợ AI thực tế.
